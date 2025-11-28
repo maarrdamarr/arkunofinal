@@ -9,6 +9,8 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Lelang</h6>
@@ -43,6 +45,14 @@
                                 </span>
                             </td>
                             <td>
+                                @if($item->status == 'open')
+                                    <form action="{{ route('seller.items.close', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tutup lelang ini? Pemenang akan ditentukan otomatis.');">
+                                        @csrf
+                                        <button class="btn btn-warning btn-sm" title="Tutup Lelang">
+                                            <i class="fas fa-gavel"></i> Stop
+                                        </button>
+                                    </form>
+                                @endif
                                 <form action="{{ route('seller.items.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus barang ini?');">
                                     @csrf
                                     @method('DELETE')

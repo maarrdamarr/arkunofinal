@@ -16,98 +16,87 @@
 
     <div id="wrapper">
 
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-gavel"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Lelang Antik</div>
-            </a>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-gavel"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Lelang v12</div>
+    </a>
 
-            <hr class="sidebar-divider my-0">
+    <hr class="sidebar-divider my-0">
 
-            @if(Auth::user()->role == 'admin')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard Admin</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.news.index') }}">
-                    <i class="fas fa-fw fa-newspaper"></i>
-                    <span>Kelola Berita</span>
-                </a>
-            </li>
-            @endif
+    @if(Auth::user()->role == 'admin')
+    <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.dashboard') }}">
+            <i class="fas fa-fw fa-chart-line"></i>
+            <span>Laporan Transaksi</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.news.index') }}">
+            <i class="fas fa-fw fa-newspaper"></i>
+            <span>Kelola Berita</span>
+        </a>
+    </li>
+    @endif
 
-            @if(Auth::user()->role == 'seller')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('seller.items.index') }}">
-                    <i class="fas fa-fw fa-store"></i>
-                    <span>Dashboard Penjual</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-box"></i>
-                    <span>Barang Saya</span> </a>
-            </li>
-            @endif
+    @if(Auth::user()->role == 'seller')
+    <li class="nav-item {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('seller.dashboard') }}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('seller.items.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('seller.items.index') }}">
+            <i class="fas fa-fw fa-box-open"></i>
+            <span>Kelola Barang</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('messages.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('messages.index') }}">
+            <i class="fas fa-fw fa-envelope"></i>
+            <span>Pesan Masuk</span>
+            <span class="badge badge-danger badge-counter">{{ Auth::user()->receivedMessages()->count() }}</span>
+        </a>
+    </li>
+    @endif
 
-            @if(Auth::user()->role == 'bidder')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('bidder.dashboard') }}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Dashboard Pembeli</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-history"></i>
-                    <span>Riwayat Bid</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('bidder.auction.index') }}">
-                    <i class="fas fa-fw fa-gavel"></i>
-                    <span>Bursa Lelang</span>
-                </a>
-            </li>
-            @endif
+    @if(Auth::user()->role == 'bidder')
+    <li class="nav-item {{ request()->routeIs('bidder.dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bidder.dashboard') }}">
+            <i class="fas fa-fw fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('bidder.auction.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bidder.auction.index') }}">
+            <i class="fas fa-fw fa-search-dollar"></i>
+            <span>Cari Barang</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('bidder.wishlist.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bidder.wishlist.index') }}">
+            <i class="fas fa-fw fa-heart"></i>
+            <span>Favorit Saya</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('bidder.wins.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bidder.wins.index') }}">
+            <i class="fas fa-fw fa-trophy"></i>
+            <span>Pemenang / Invoice</span>
+        </a>
+    </li>
+    @endif
 
-            <hr class="sidebar-divider d-none d-md-block">
+    <hr class="sidebar-divider d-none d-md-block">
 
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <div id="content">
-
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <ul class="navbar-nav ml-auto">
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); this.closest('form').submit();">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
                 </nav>
                 <div class="container-fluid">
                     {{ $slot }}

@@ -25,4 +25,11 @@ class Item extends Model
         public function highestBid() {
             return $this->bids()->first();
     }
+    public function wishlists() {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
 }

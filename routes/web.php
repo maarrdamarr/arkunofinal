@@ -17,52 +17,58 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-// GROUP 1: ADMIN (Hanya Admin yang boleh masuk)
+// --- UPDATE GROUP ADMIN ---
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    
     Route::get('/dashboard', function () {
-        return view('admin.dashboard'); // Nanti kita buat view ini
+        // Logika Laporan Admin: Hitung barang laku (closed)
+        $soldItems = \App\Models\Item::where('status', 'closed')->with('bids')->get();
+        return view('admin.dashboard', compact('soldItems'));
     })->name('dashboard');
-
-    // Nanti tambah route manage user, approve barang, berita di sini
-    // Route Berita (Ini yang baru)
+    
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
 });
 
-
-// GROUP 2: SELLER (Hanya Seller yang boleh masuk)
+// --- UPDATE GROUP SELLER ---
 Route::middleware(['auth', 'role:seller'])->prefix('seller')->name('seller.')->group(function () {
-    
     Route::get('/dashboard', function () {
-        return view('seller.dashboard'); // Nanti kita buat view ini
+        return view('seller.dashboard');
     })->name('dashboard');
-
-    // Nanti tambah route upload barang di sini
-    // Route Barang (Baru)
+    
     Route::resource('items', \App\Http\Controllers\Seller\ItemController::class);
+    
+    // Route Tutup Lelang
+    Route::post('/items/{id}/close', [\App\Http\Controllers\Seller\ItemController::class, 'closeAuction'])->name('items.close');
 });
 
-
-// GROUP 3: BIDDER / PEMBELI (Bisa Bidder, tapi Admin/Seller juga boleh lihat kalau mau)
-Route::middleware(['auth', 'role:bidder|admin|seller'])->prefix('bidder')->name('bidder.')->group(function () {
-    
+// --- UPDATE GROUP BIDDER ---
+Route::middleware(['auth', 'role:bidder'])->prefix('bidder')->name('bidder.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('bidder.dashboard'); // Nanti kita buat view ini
+        return view('bidder.dashboard');
     })->name('dashboard');
 
-    // Nanti tambah route bidding di sini
-    // Route Lelang (Baru)
     Route::get('/auctions', [\App\Http\Controllers\Bidder\AuctionController::class, 'index'])->name('auction.index');
     Route::get('/auctions/{id}', [\App\Http\Controllers\Bidder\AuctionController::class, 'show'])->name('auction.show');
     Route::post('/auctions/{id}', [\App\Http\Controllers\Bidder\AuctionController::class, 'store'])->name('auction.store');
+
+    // Route Wishlist
+    Route::post('/wishlist/{id}', [\App\Http\Controllers\Bidder\WishlistController::class, 'toggle'])->name('wishlist.toggle');
+    Route::get('/wishlist', [\App\Http\Controllers\Bidder\WishlistController::class, 'index'])->name('wishlist.index');
+
+    // Route Barang Menang (My Wins)
+    Route::get('/my-wins', function() {
+        // Cari barang status 'closed', lalu cek apakah user ini penawar tertingginya
+        // Ini logika agak kompleks query-nya, kita sederhanakan dengan filter collection
+        $wonItems = \App\Models\Item::where('status', 'closed')->get()->filter(function($item) {
+            $highestBid = $item->bids()->orderBy('bid_amount', 'desc')->first();
+            return $highestBid && $highestBid->user_id == Auth::id();
+        });
+        return view('bidder.wins.index', compact('wonItems'));
+    })->name('wins.index');
 });
 
-
-// Route Bawaan Breeze (Profile, Logout, dll)
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// --- ROUTE PESAN (Bisa diakses Seller & Bidder) ---
+Route::middleware('auth')->group(function() {
+    Route::get('/inbox', [\App\Http\Controllers\MessageController::class, 'index'])->name('messages.index');
+    Route::post('/message/{id}', [\App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
 });
-
 require __DIR__.'/auth.php';

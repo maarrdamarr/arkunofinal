@@ -71,6 +71,27 @@
                 </div>
             </div>
 
+            <div class="mt-3">
+    <form action="{{ route('bidder.wishlist.toggle', $item->id) }}" method="POST" class="d-inline">
+        @csrf
+        <button class="btn btn-outline-danger btn-sm">
+            <i class="fas fa-heart"></i> Favorit
+        </button>
+    </form>
+
+    <hr>
+    <h6>Tanya Penjual:</h6>
+    <form action="{{ route('messages.store', $item->id) }}" method="POST">
+        @csrf
+        <div class="input-group">
+            <input type="text" name="message" class="form-control form-control-sm" placeholder="Barang ready gan?" required>
+            <div class="input-group-append">
+                <button class="btn btn-primary btn-sm" type="submit"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
         </div>
     </div>
 </x-sb-admin-layout>

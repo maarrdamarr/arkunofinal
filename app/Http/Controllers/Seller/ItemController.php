@@ -65,4 +65,17 @@ class ItemController extends Controller
         $item->delete();
         return redirect()->route('seller.items.index')->with('success', 'Barang dihapus.');
     }
+    // Fitur Tutup Lelang & Tentukan Pemenang
+    public function closeAuction($id)
+    {
+        $item = Item::where('user_id', Auth::id())->findOrFail($id);
+        
+        // Ubah status jadi closed
+        $item->update(['status' => 'closed']);
+
+        // Logikanya: Bidder tertinggi otomatis jadi pemenang di mata sistem
+        // Kita tidak perlu tabel khusus, cukup cek status 'closed' dan bid tertinggi
+        
+        return back()->with('success', 'Lelang ditutup! Pemenang telah ditentukan.');
+    }
 }
