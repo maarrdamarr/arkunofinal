@@ -26,6 +26,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     })->name('dashboard');
 
     // Nanti tambah route manage user, approve barang, berita di sini
+    // Route Berita (Ini yang baru)
+    Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
 });
 
 
