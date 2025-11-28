@@ -31,6 +31,9 @@
                             <td>{{ $item->title }}</td>
                             <td>{{ $item->created_at->format('d M Y') }}</td>
                             <td>
+                                <a href="{{ route('admin.news.edit', $item->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
                                 <form action="{{ route('admin.news.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?');">
                                     @csrf
                                     @method('DELETE')

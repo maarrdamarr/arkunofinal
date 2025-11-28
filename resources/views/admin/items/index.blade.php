@@ -42,6 +42,9 @@
                                 </span>
                             </td>
                             <td>
+                                <a href="{{ route('admin.items.edit', $item->id) }}" class="btn btn-warning btn-sm" title="Edit Barang">
+                                    <i class="fas fa-edit"></i>
+                                </a>
                                 <form action="{{ route('admin.items.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus paksa barang ini?');">
                                     @csrf
                                     @method('DELETE')

@@ -48,6 +48,41 @@ class NewsController extends Controller
         return redirect()->route('admin.news.index')->with('success', 'Berita berhasil dibuat!');
     }
 
+    // MENAMPILKAN FORM EDIT
+    public function edit(News $news)
+    {
+        return view('admin.news.edit', compact('news'));
+    }
+
+    // MENYIMPAN PERUBAHAN
+    public function update(Request $request, News $news)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        $data = [
+            'title' => $request->title,
+            'slug' => \Illuminate\Support\Str::slug($request->title), // Update slug juga
+            'content' => $request->content,
+        ];
+
+        // Cek jika ada gambar baru
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama
+            if ($news->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($news->image);
+            }
+            $data['image'] = $request->file('image')->store('news_images', 'public');
+        }
+
+        $news->update($data);
+
+        return redirect()->route('admin.news.index')->with('success', 'Berita berhasil diperbarui!');
+    }
+
     // 4. Hapus Berita
     public function destroy(News $news)
     {

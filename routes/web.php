@@ -20,18 +20,22 @@ Route::get('/dashboard', function () {
 // GROUP 1: ADMIN (Full Control)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     
-    // Dashboard Statistik
+    // Dashboard
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Manajemen User (Baru)
+    // CRUD USER
     Route::get('/users', [\App\Http\Controllers\Admin\AdminController::class, 'users'])->name('users.index');
+    Route::get('/users/{id}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'destroyUser'])->name('users.destroy');
 
-    // Pengawasan Barang (Baru)
+    // CRUD ITEM (BARANG)
     Route::get('/items', [\App\Http\Controllers\Admin\AdminController::class, 'items'])->name('items.index');
+    Route::get('/items/{id}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'editItem'])->name('items.edit');
+    Route::put('/items/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateItem'])->name('items.update');
     Route::delete('/items/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'destroyItem'])->name('items.destroy');
 
-    // CRUD Berita (Tetap sama)
+    // CRUD BERITA (Otomatis sudah lengkap dengan resource)
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
 });
 

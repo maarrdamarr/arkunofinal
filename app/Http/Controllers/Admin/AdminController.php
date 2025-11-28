@@ -58,4 +58,50 @@ class AdminController extends Controller
         $item->delete();
         return back()->with('success', 'Barang berhasil dihapus paksa oleh Admin.');
     }
+    // --- EDIT USER ---
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'role' => 'required|in:admin,seller,bidder',
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+        ]);
+
+        return redirect()->route('admin.users.index')->with('success', 'Data pengguna diperbarui.');
+    }
+
+    // --- EDIT BARANG (ITEM) ---
+    public function editItem($id)
+    {
+        $item = Item::findOrFail($id);
+        return view('admin.items.edit', compact('item'));
+    }
+
+    public function updateItem(Request $request, $id)
+    {
+        $item = Item::findOrFail($id);
+        $request->validate([
+            'name' => 'required',
+            'start_price' => 'required|numeric',
+            'status' => 'required|in:open,closed',
+            'description' => 'required',
+        ]);
+
+        $item->update($request->only(['name', 'start_price', 'status', 'description']));
+
+        return redirect()->route('admin.items.index')->with('success', 'Data barang diperbarui.');
+    }
 }

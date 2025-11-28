@@ -33,6 +33,9 @@
                             </td>
                             <td>{{ $user->created_at->format('d M Y') }}</td>
                             <td>
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Yakin ingin mem-banned user ini? Data barang/bid mereka juga akan terhapus!');">
                                     @csrf
                                     @method('DELETE')
