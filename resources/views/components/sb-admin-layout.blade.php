@@ -27,20 +27,38 @@
 
     <hr class="sidebar-divider my-0">
 
-    @if(Auth::user()->role == 'admin')
-    <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.dashboard') }}">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Laporan Transaksi</span>
-        </a>
-    </li>
-    <li class="nav-item {{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.news.index') }}">
-            <i class="fas fa-fw fa-newspaper"></i>
-            <span>Kelola Berita</span>
-        </a>
-    </li>
-    @endif
+@if(Auth::user()->role == 'admin')
+<div class="sidebar-heading">Admin Core</div>
+
+<li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.dashboard') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard & Laporan</span>
+    </a>
+</li>
+
+<li class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.users.index') }}">
+        <i class="fas fa-fw fa-users-cog"></i>
+        <span>Kelola Pengguna</span>
+    </a>
+</li>
+
+<li class="nav-item {{ request()->routeIs('admin.items.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.items.index') }}">
+        <i class="fas fa-fw fa-shield-alt"></i>
+        <span>Pengawasan Barang</span>
+    </a>
+</li>
+
+<li class="nav-item {{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.news.index') }}">
+        <i class="fas fa-fw fa-newspaper"></i>
+        <span>Kelola Berita</span>
+    </a>
+</li>
+<hr class="sidebar-divider">
+@endif
 
     @if(Auth::user()->role == 'seller')
     <li class="nav-item {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">

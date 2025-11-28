@@ -17,14 +17,21 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-// --- UPDATE GROUP ADMIN ---
+// GROUP 1: ADMIN (Full Control)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        // Logika Laporan Admin: Hitung barang laku (closed)
-        $soldItems = \App\Models\Item::where('status', 'closed')->with('bids')->get();
-        return view('admin.dashboard', compact('soldItems'));
-    })->name('dashboard');
     
+    // Dashboard Statistik
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Manajemen User (Baru)
+    Route::get('/users', [\App\Http\Controllers\Admin\AdminController::class, 'users'])->name('users.index');
+    Route::delete('/users/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'destroyUser'])->name('users.destroy');
+
+    // Pengawasan Barang (Baru)
+    Route::get('/items', [\App\Http\Controllers\Admin\AdminController::class, 'items'])->name('items.index');
+    Route::delete('/items/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'destroyItem'])->name('items.destroy');
+
+    // CRUD Berita (Tetap sama)
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
 });
 
