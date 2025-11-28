@@ -37,6 +37,13 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.wallet.index') }}">
+        <i class="fas fa-fw fa-money-bill-wave"></i>
+        <span>Approval Dompet</span>
+    </a>
+</li>
+
 <li class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('admin.users.index') }}">
         <i class="fas fa-fw fa-users-cog"></i>
@@ -87,6 +94,13 @@
         <a class="nav-link" href="{{ route('bidder.dashboard') }}">
             <i class="fas fa-fw fa-home"></i>
             <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('bidder.wallet.index') }}">
+            <i class="fas fa-fw fa-wallet"></i>
+            <span>Dompet Saya</span>
+            <span class="badge badge-success ml-1">Rp {{ number_format(Auth::user()->balance ?? 0) }}</span>
         </a>
     </li>
     <li class="nav-item {{ request()->routeIs('bidder.auction.*') ? 'active' : '' }}">

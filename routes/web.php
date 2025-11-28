@@ -37,6 +37,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // CRUD BERITA (Otomatis sudah lengkap dengan resource)
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
+
+    Route::get('/wallet', [\App\Http\Controllers\WalletController::class, 'adminIndex'])->name('wallet.index');
+    Route::post('/wallet/{id}/approve', [\App\Http\Controllers\WalletController::class, 'approve'])->name('wallet.approve');
 });
 
 // --- UPDATE GROUP SELLER ---
@@ -75,11 +78,15 @@ Route::middleware(['auth', 'role:bidder'])->prefix('bidder')->name('bidder.')->g
         });
         return view('bidder.wins.index', compact('wonItems'));
     })->name('wins.index');
+
+    Route::get('/wallet', [\App\Http\Controllers\WalletController::class, 'index'])->name('wallet.index');
+    Route::post('/wallet', [\App\Http\Controllers\WalletController::class, 'store'])->name('wallet.store');
 });
 
 // --- ROUTE PESAN (Bisa diakses Seller & Bidder) ---
 Route::middleware('auth')->group(function() {
     Route::get('/inbox', [\App\Http\Controllers\MessageController::class, 'index'])->name('messages.index');
     Route::post('/message/{id}', [\App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
+    Route::post('/comments/{item_id}', [\App\Http\Controllers\CommentController::class, 'store'])->middleware('auth')->name('comments.store');
 });
 require __DIR__.'/auth.php';

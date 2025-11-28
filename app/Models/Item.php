@@ -32,4 +32,7 @@ class Item extends Model
     public function messages() {
         return $this->hasMany(Message::class);
     }
+
+    public function comments() { return $this->hasMany(Comment::class)->latest(); }
+public function review() { return $this->hasOne(Review::class); }
 }

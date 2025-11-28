@@ -92,6 +92,47 @@
     </form>
 </div>
 
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-comments"></i> Diskusi & Tanya Jawab</h6>
+            </div>
+            <div class="card-body">
+                <div class="chat-box mb-4" style="max-height: 400px; overflow-y: auto;">
+                    @forelse($item->comments as $chat)
+                        <div class="mb-3 {{ $chat->user_id == Auth::id() ? 'text-right' : '' }}">
+                            <div class="d-inline-block p-3 rounded {{ $chat->user_id == $item->user_id ? 'bg-warning text-dark' : ($chat->user_id == Auth::id() ? 'bg-primary text-white' : 'bg-gray-200 text-dark') }}">
+                                <small class="font-weight-bold d-block mb-1">
+                                    {{ $chat->user->name }} 
+                                    @if($chat->user_id == $item->user_id) <span class="badge badge-dark">Penjual</span> @endif
+                                </small>
+                                {{ $chat->body }}
+                            </div>
+                            <br>
+                            <small class="text-muted">{{ $chat->created_at->diffForHumans() }}</small>
+                        </div>
+                    @empty
+                        <p class="text-center text-muted">Belum ada diskusi. Jadilah yang pertama bertanya!</p>
+                    @endforelse
+                </div>
+
+                <form action="{{ route('comments.store', $item->id) }}" method="POST">
+                    @csrf
+                    <div class="input-group">
+                        <input type="text" name="body" class="form-control" placeholder="Tulis pertanyaan Anda di sini..." required>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-paper-plane"></i> Kirim
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
 </x-sb-admin-layout>
