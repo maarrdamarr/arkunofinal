@@ -14,6 +14,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Foto</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -24,6 +25,13 @@
                     <tbody>
                         @foreach($users as $user)
                         <tr>
+                            <td class="text-center">
+            @if($user->avatar)
+                <img src="{{ asset('storage/' . $user->avatar) }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+            @else
+                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" class="rounded-circle" style="width: 40px; height: 40px;">
+            @endif
+        </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>

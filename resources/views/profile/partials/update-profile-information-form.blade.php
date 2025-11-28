@@ -8,9 +8,27 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('profile.update') }}">
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
         @method('patch')
+        <div class="form-group">
+    <label class="text-gray-800 font-weight-bold small">Foto Profil</label>
+    <div class="d-flex align-items-center">
+        <div class="mr-3">
+            @if(Auth::user()->avatar)
+                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #ddd;">
+            @else
+                <div class="rounded-circle bg-gray-200 d-flex align-items-center justify-content-center text-gray-500" style="width: 80px; height: 80px; border: 2px solid #ddd;">
+                    <i class="fas fa-user fa-2x"></i>
+                </div>
+            @endif
+        </div>
+        <div>
+            <input type="file" name="avatar" class="form-control-file small">
+            <small class="text-muted d-block mt-1">Format: JPG, PNG. Max: 2MB.</small>
+        </div>
+    </div>
+</div>
 
         <div class="form-group">
             <label for="name" class="text-gray-800 font-weight-bold small">Nama Lengkap</label>
