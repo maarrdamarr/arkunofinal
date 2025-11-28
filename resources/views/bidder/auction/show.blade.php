@@ -3,15 +3,21 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Detail Barang</h6>
-                </div>
-                <div class="card-body">
-                    @if($item->image)
-                        <img src="{{ asset('storage/' . $item->image) }}" class="img-fluid rounded mb-3">
-                    @endif
-                    <h3>{{ $item->name }}</h3>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Detail Barang</h6>
+    </div>
+    <div class="card-body text-center bg-light">
+        @if($item->image)
+            <img src="{{ asset('storage/' . $item->image) }}" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+        @else
+            <div class="py-5 text-muted border rounded">
+                <i class="fas fa-image fa-3x mb-3"></i><br>Penjual tidak menyertakan foto.
+            </div>
+        @endif
+    </div>
+    <div class="card-body">
+        <h3>{{ $item->name }}</h3>
                     <p>{{ $item->description }}</p>
                     <hr>
                     <p><strong>Penjual:</strong> {{ $item->user->name }}</p>

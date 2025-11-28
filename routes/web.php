@@ -43,6 +43,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Route Tambah Saldo Manual
     Route::post('/users/{id}/topup', [\App\Http\Controllers\WalletController::class, 'manualTopup'])->name('users.topup');
+    // ROUTE INBOX SUPPORT
+    Route::get('/support', [\App\Http\Controllers\SupportController::class, 'adminIndex'])->name('support.index');
+    Route::get('/support/{userId}', [\App\Http\Controllers\SupportController::class, 'adminShow'])->name('support.show');
+    Route::post('/support/{userId}/reply', [\App\Http\Controllers\SupportController::class, 'adminReply'])->name('support.reply');
 });
 
 // --- UPDATE GROUP SELLER ---
@@ -93,10 +97,19 @@ Route::middleware('auth')->group(function() {
     Route::post('/comments/{item_id}', [\App\Http\Controllers\CommentController::class, 'store'])->middleware('auth')->name('comments.store');
 });
 
-// === ROUTE PROFIL (BAWAAN BREEZE) - PASTIKAN INI ADA ===
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/support/fetch', [\App\Http\Controllers\SupportController::class, 'fetchMessages'])->name('support.fetch');
+    Route::post('/support/send', [\App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
+    Route::post('/support/update/{id}', [\App\Http\Controllers\SupportController::class, 'update'])->name('support.update');
+    Route::delete('/support/delete/{id}', [\App\Http\Controllers\SupportController::class, 'destroy'])->name('support.destroy');
 });
+
+// === ROUTE PROFIL (TAMBAHKAN INI) ===
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 require __DIR__.'/auth.php';

@@ -45,21 +45,24 @@
                                 </span>
                             </td>
                             <td>
-                                @if($item->status == 'open')
-                                    <form action="{{ route('seller.items.close', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tutup lelang ini? Pemenang akan ditentukan otomatis.');">
-                                        @csrf
-                                        <button class="btn btn-warning btn-sm" title="Tutup Lelang">
-                                            <i class="fas fa-gavel"></i> Stop
-                                        </button>
-                                    </form>
-                                @endif
-                                <form action="{{ route('seller.items.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus barang ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
+       <div class="d-flex">
+    <a href="{{ route('seller.items.edit', $item->id) }}" class="btn btn-info btn-sm mr-1" title="Edit Barang">
+        <i class="fas fa-edit"></i>
+    </a>
+
+    @if($item->status == 'open')
+        <form action="{{ route('seller.items.close', $item->id) }}" method="POST" class="mr-1" onsubmit="return confirm('Tutup lelang ini?');">
+            @csrf
+            <button class="btn btn-warning btn-sm" title="Tutup Lelang"><i class="fas fa-gavel"></i></button>
+        </form>
+    @endif
+
+    <form action="{{ route('seller.items.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus barang ini?');">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
+    </form>
+</div>                        </tr>
                         @endforeach
                     </tbody>
                 </table>

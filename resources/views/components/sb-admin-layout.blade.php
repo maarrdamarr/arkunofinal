@@ -28,6 +28,12 @@
 
             @if(Auth::user()->role == 'admin')
             <div class="sidebar-heading mt-3">Admin Core</div>
+            <li class="nav-item {{ request()->routeIs('admin.support.*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.support.index') }}">
+        <i class="fas fa-fw fa-headset"></i>
+        <span>Inbox Support</span>
+    </a>
+</li>
             <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard & Laporan</span>
@@ -186,6 +192,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/js/sb-admin-2.min.js"></script>
+
+    @include('components.live-chat-widget')
 
 </body>
 </html>

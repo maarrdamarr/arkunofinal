@@ -78,4 +78,49 @@ class ItemController extends Controller
         
         return back()->with('success', 'Lelang ditutup! Pemenang telah ditentukan.');
     }
+    // MENAMPILKAN FORM EDIT
+    public function edit(Item $item)
+    {
+        // Pastikan barang milik seller yang login
+        if ($item->user_id !== Auth::id()) {
+            abort(403);
+        }
+        return view('seller.items.edit', compact('item'));
+    }
+
+    // SIMPAN PERUBAHAN
+    public function update(Request $request, Item $item)
+    {
+        // Validasi Milik Sendiri
+        if ($item->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required',
+            'start_price' => 'required|numeric',
+            'image' => 'nullable|image|max:2048', // Opsional, kalau mau ganti foto
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+            'start_price' => $request->start_price,
+        ];
+
+        // Logika Ganti Foto
+        if ($request->hasFile('image')) {
+            // Hapus foto lama di server agar hemat penyimpanan
+            if ($item->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($item->image);
+            }
+            // Upload foto baru
+            $data['image'] = $request->file('image')->store('items', 'public');
+        }
+
+        $item->update($data);
+
+        return redirect()->route('seller.items.index')->with('success', 'Data barang berhasil diperbarui!');
+    }
 }
