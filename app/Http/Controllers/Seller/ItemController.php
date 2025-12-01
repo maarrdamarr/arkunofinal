@@ -28,7 +28,7 @@ class ItemController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required',
+            'description' => 'required|string',
             'start_price' => 'required|numeric|min:1000',
             'image' => 'nullable|image|max:2048',
         ]);
@@ -38,16 +38,20 @@ class ItemController extends Controller
             $imagePath = $request->file('image')->store('items', 'public');
         }
 
-        Item::create([
-            'user_id' => Auth::id(), // Otomatis set pemilik barang
-            'name' => $request->name,
-            'description' => $request->description,
-            'start_price' => $request->start_price,
-            'image' => $imagePath,
-            'status' => 'open',
-        ]);
+        try {
+            Item::create([
+                'user_id' => Auth::id(), // Otomatis set pemilik barang
+                'name' => $request->name,
+                'description' => $request->description,
+                'start_price' => $request->start_price,
+                'image' => $imagePath,
+                'status' => 'open',
+            ]);
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menyimpan barang: ' . $e->getMessage());
+        }
 
-        return redirect()->route('seller.items.index')->with('success', 'Barang berhasil diupload!');
+        return redirect()->route('seller.items.index')->with('success', 'Barang berhasil diupload dan lelang dimulai!');
     }
 
     // 4. Hapus Barang
@@ -114,8 +118,8 @@ class ItemController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required',
-            'start_price' => 'required|numeric',
+            'description' => 'required|string',
+            'start_price' => 'required|numeric|min:1000',
             'image' => 'nullable|image|max:2048', // Opsional, kalau mau ganti foto
         ]);
 
@@ -135,7 +139,11 @@ class ItemController extends Controller
             $data['image'] = $request->file('image')->store('items', 'public');
         }
 
-        $item->update($data);
+        try {
+            $item->update($data);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui barang: ' . $e->getMessage());
+        }
 
         return redirect()->route('seller.items.index')->with('success', 'Data barang berhasil diperbarui!');
     }

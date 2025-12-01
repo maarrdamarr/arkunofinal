@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Royal Auction House | Exclusive & Timeless</title>
+    <title>Artkuno | seni adalah ledakan</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,18 +92,15 @@
             <div class="flex justify-between items-center">
                 
                 <a href="/" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full flex items-center justify-center text-white shadow-lg">
-                        <i class="fas fa-gavel text-sm"></i>
-                    </div>
                     <div class="logo-text font-serif-display font-bold text-2xl text-white tracking-widest transition-colors">
-                        ROYAL<span class="text-yellow-500">BID</span>
+                        ART<span class="text-yellow-500">KUNO</span>
                     </div>
                 </a>
 
                 <div class="hidden md:flex space-x-12 items-center">
-                    <a href="#home" class="nav-link text-white/90 hover:text-yellow-400 font-medium text-xs uppercase tracking-[0.2em] transition">Beranda</a>
-                    <a href="#collection" class="nav-link text-white/90 hover:text-yellow-400 font-medium text-xs uppercase tracking-[0.2em] transition">Koleksi</a>
-                    <a href="#about" class="nav-link text-white/90 hover:text-yellow-400 font-medium text-xs uppercase tracking-[0.2em] transition">Tentang</a>
+                    <a href="#home" class="nav-link text-white/90 hover:text-yellow-400 font-medium text-xs uppercase tracking-[0.2em] transition">Home</a>
+                    <a href="#collection" class="nav-link text-white/90 hover:text-yellow-400 font-medium text-xs uppercase tracking-[0.2em] transition">Collection</a>
+                    <a href="#about" class="nav-link text-white/90 hover:text-yellow-400 font-medium text-xs uppercase tracking-[0.2em] transition">About</a>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -125,19 +122,15 @@
     <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2000&auto=format&fit=crop" 
-                 class="w-full h-full object-cover animate-pulse-slow" 
-                 style="animation-duration: 20s;"
-                 alt="Luxury Interior">
+                class="w-full h-full object-cover animate-pulse-slow" 
+                style="animation-duration: 20s;"
+                alt="Luxury Interior">
             <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/90 via-emerald-900/60 to-stone-50"></div>
         </div>
 
         <div class="relative z-10 text-center max-w-4xl px-6 pt-20">
             <div data-aos="fade-down" data-aos-duration="1000">
-                <span class="inline-block py-1 px-3 border border-yellow-500/30 rounded-full bg-emerald-900/30 backdrop-blur-sm text-yellow-400 text-[10px] font-bold tracking-[0.3em] uppercase mb-6">
-                    Established 2025
-                </span>
             </div>
-            
             <h1 class="font-serif-display text-5xl md:text-7xl lg:text-8xl font-medium text-white mb-8 leading-tight" 
                 data-aos="fade-up" data-aos-duration="1200">
                 The Art of <br>
@@ -146,7 +139,7 @@
             
             <p class="text-gray-200 text-lg font-light mb-12 max-w-2xl mx-auto leading-relaxed" 
                data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
-                Platform lelang kurasi eksklusif. Menemukan kembali warisan sejarah dan karya seni bernilai tinggi untuk kolektor sejati.
+            a leading online auction platform specializing in antiques and fine art. Our mission is to connect collectors, sellers, and art enthusiasts around the world through a unique auction experience
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-5" 
@@ -162,6 +155,47 @@
 
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
             <i class="fas fa-chevron-down text-white/50 text-xl"></i>
+        </div>
+    </section>
+
+<section id="about" class="py-24 bg-[#f9f8f4] border-b border-gray-200 overflow-hidden">
+        <div class="container mx-auto px-6 md:px-12 max-w-4xl text-center">
+            
+            <div data-aos="fade-down" data-aos-duration="1000">
+                <h1 class="font-serif-display text-5xl md:text-7xl lg:text-8xl font-medium text-dark-gradient mb-8 leading-tight" 
+                    data-aos="fade-up" data-aos-duration="1200">
+                    "ArtKuno"
+                    <h1>
+                        <span class="text-primary-gradient font-bold font-serif-display text-lg md:text-xl">Timeless Luxury</span><br>
+                    </h1>
+                    <br>
+                </h1>
+            </div>
+
+            <div data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+                <p class="font-body text-gold-gradient text-xllg md:text-xl text-gray-600 leading-relaxed italic">
+                    "Menghubungkan masa lalu dengan masa depan melalui seni."
+                </p>
+                
+                <p class="font-body text-base md:text-lg text-gray-700 leading-loose mt-6 text-justify md:text-center">
+                    <span class="font-semibold text-gray-900">Artkuno</span> adalah platform lelang online terkemuka yang mengkhususkan diri dalam 
+                    <strong>barang antik</strong> dan <strong>seni rupa</strong>. Misi kami adalah menghubungkan kolektor, penjual, 
+                    dan penggemar seni di seluruh dunia melalui pengalaman lelang yang <span class="border-b-2 border-[#b8860b]/30">aman, transparan, dan mudah diakses</span>. 
+                </p>
+
+                <p class="font-body text-base md:text-lg text-gray-700 leading-loose mt-4 text-justify md:text-center">
+                    Dengan kurasi ketat dan jaringan global, kami memastikan setiap item yang ditawarkan memiliki 
+                    nilai sejarah dan estetika yang tinggi.
+                </p>
+            </br>
+                <p> 
+                    <h1>
+                        <span class="text-dark font-bold font-serif-display text-lg md:text-xl">Timeless Luxury</span><br>
+                    </h1> 
+                <br>      
+                </br>                                                                                                                              
+                </p>
+            </div>
         </div>
     </section>
 
@@ -267,7 +301,7 @@
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
                 <span class="text-yellow-600 font-bold uppercase tracking-[0.2em] text-xs">Wawasan & Berita</span>
-                <h2 class="font-serif-display text-4xl font-normal text-emerald-950 mt-3">Kabar Terbaru dari Royal Bid</h2>
+                <h2 class="font-serif-display text-4xl font-normal text-emerald-950 mt-3">Kabar Terbaru ARTKUNO</h2>
                 <div class="w-24 h-1 bg-yellow-500 mx-auto mt-6 rounded-full"></div>
             </div>
 
@@ -324,7 +358,7 @@
             </p>
             <div data-aos="fade-up" data-aos-delay="200">
                 <a href="{{ route('register') }}" class="btn-gold px-10 py-4 text-white rounded-full font-bold text-sm uppercase tracking-widest inline-block shadow-lg hover:shadow-yellow-500/20 transition-transform hover:-translate-y-1">
-                    Daftar Sebagai Penjual
+                    Daftarkan Barang Anda
                 </a>
             </div>
         </div>
@@ -336,7 +370,7 @@
                 <div class="md:col-span-5" data-aos="fade-right">
                     <a href="/" class="flex items-center gap-2 mb-6">
                         <i class="fas fa-gavel text-yellow-500 text-xl"></i>
-                        <span class="font-serif-display font-bold text-2xl text-emerald-950 tracking-widest">ROYAL<span class="text-yellow-500">BID</span></span>
+                        <span class="font-serif-display font-bold text-2xl text-emerald-950 tracking-widest">ART<span class="text-yellow-500">KUNO</span></span>
                     </a>
                     <p class="text-gray-500 leading-relaxed font-light pr-8">
                         Royal Auction House adalah destinasi utama untuk lelang barang antik dan seni rupa. Kami menghubungkan masa lalu dengan masa depan melalui kepercayaan dan integritas.
@@ -358,7 +392,8 @@
                     <ul class="space-y-4 text-sm text-gray-500">
                         <li class="flex items-start gap-3">
                             <i class="fas fa-map-marker-alt text-yellow-500 mt-1"></i>
-                            <span>The Heritage Tower, Level 42<br>SCBD, Jakarta Selatan</span>
+                            <span>the artkuno tower
+                            </span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="fas fa-phone text-yellow-500"></i>
@@ -366,14 +401,14 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i class="fas fa-envelope text-yellow-500"></i>
-                            <span>private@royalbid.com</span>
+                            <span>artkuno@gmail.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
-                <p>&copy; 2025 Royal Bid Indonesia. All rights reserved.</p>
+                <p>&copy; 2025 ARTKUNO Indonesia. All rights reserved.</p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
                     <a href="#" class="hover:text-emerald-900 transition">Privacy Policy</a>
                     <a href="#" class="hover:text-emerald-900 transition">Terms of Service</a>
