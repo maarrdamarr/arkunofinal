@@ -19,13 +19,23 @@
                     <tr>
                         <td>{{ $t->user->name }}</td>
                         <td>
-                            @if($t->status === 'approved')
-                                <span class="badge badge-success">Saldo Masuk</span>
+                            @if($t->amount > 0)
+                                <span class="badge badge-success">Masuk</span>
+                            @elseif($t->amount < 0)
+                                <span class="badge badge-danger">Keluar</span>
                             @else
-                                <span class="badge badge-warning">Pending Review</span>
+                                <span class="badge badge-secondary">Netral</span>
                             @endif
                         </td>
-                        <td>+Rp {{ number_format($t->amount) }}</td>
+                        <td>
+                            @if($t->amount > 0)
+                                +Rp {{ number_format($t->amount) }}
+                            @elseif($t->amount < 0)
+                                -Rp {{ number_format(abs($t->amount)) }}
+                            @else
+                                Rp 0
+                            @endif
+                        </td>
                         <td>
                             @if($t->status === 'approved')
                                 <span class="text-success">✓ Diterima</span>

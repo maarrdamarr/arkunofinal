@@ -44,7 +44,15 @@
                     @foreach($topups as $t)
                     <tr>
                         <td>{{ $t->created_at->format('d M Y H:i') }}</td>
-                        <td>Rp {{ number_format($t->amount) }}</td>
+                        <td>
+                            @if($t->amount > 0)
+                                <span class="text-success">+Rp {{ number_format($t->amount) }}</span>
+                            @elseif($t->amount < 0)
+                                <span class="text-danger">-Rp {{ number_format(abs($t->amount)) }}</span>
+                            @else
+                                Rp 0
+                            @endif
+                        </td>
                         <td>
                             <span class="badge badge-{{ $t->status == 'approved' ? 'success' : ($t->status == 'pending' ? 'warning' : 'danger') }}">
                                 {{ ucfirst($t->status) }}

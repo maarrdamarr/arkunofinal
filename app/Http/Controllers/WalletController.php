@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Topup;
 use App\Models\User;
 use App\Models\Item;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +19,26 @@ class WalletController extends Controller
     // BIDDER: Request Topup
     public function store(Request $request) {
         $request->validate(['amount' => 'required|numeric|min:10000']);
-        Topup::create([
+        $topup = Topup::create([
             'user_id' => Auth::id(),
             'amount' => $request->amount,
-            'status' => 'pending'
+            'status' => 'pending',
+            'reference_type' => 'user_topup_request',
+            'reference_id' => Auth::id(),
+            'meta' => ['requested_via' => 'web']
         ]);
+
+        // Audit: user requested topup
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'request_topup',
+            'auditable_type' => 'Topup',
+            'auditable_id' => $topup->id,
+            'old_data' => null,
+            'new_data' => $topup->toArray(),
+            'ip' => $request->ip()
+        ]);
+
         return back()->with('success', 'Permintaan top-up dikirim. Tunggu konfirmasi Admin.');
     }
 
@@ -39,14 +55,27 @@ class WalletController extends Controller
     }
 
     // ADMIN: Approve Topup
-    public function approve($id) {
+    public function approve(Request $request, $id) {
         $topup = Topup::findOrFail($id);
+
+        $old = $topup->toArray();
         $topup->update(['status' => 'approved']);
-        
+
         // Tambah saldo user
         $user = User::find($topup->user_id);
         $user->balance += $topup->amount;
         $user->save();
+
+        // Audit: admin approved topup
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'approve_topup',
+            'auditable_type' => 'Topup',
+            'auditable_id' => $topup->id,
+            'old_data' => $old,
+            'new_data' => $topup->toArray(),
+            'ip' => $request->ip()
+        ]);
 
         return back()->with('success', 'Top-up disetujui, saldo user bertambah.');
     }
@@ -60,15 +89,29 @@ class WalletController extends Controller
         $user = User::findOrFail($id);
 
         // 1. Tambah ke History Topup (Status langsung Approved)
-        Topup::create([
+        $topup = Topup::create([
             'user_id' => $user->id,
             'amount' => $request->amount,
             'status' => 'approved', // Langsung sukses
+            'reference_type' => 'manual_topup',
+            'reference_id' => Auth::id(),
+            'meta' => ['note' => $request->input('note')] 
         ]);
 
         // 2. Update Saldo User
         $user->balance += $request->amount;
         $user->save();
+
+        // Audit: manual topup by admin
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'manual_topup',
+            'auditable_type' => 'Topup',
+            'auditable_id' => $topup->id,
+            'old_data' => null,
+            'new_data' => $topup->toArray(),
+            'ip' => $request->ip()
+        ]);
 
         return back()->with('success', 'Berhasil menambahkan Rp ' . number_format($request->amount) . ' ke saldo ' . $user->name);
     }
@@ -105,20 +148,51 @@ class WalletController extends Controller
             return back()->with('error', 'Saldo tidak cukup! Silakan top-up terlebih dahulu.');
         }
 
-        DB::transaction(function() use ($user, $amount, $item) {
+        DB::transaction(function() use ($user, $amount, $item, $highestBid) {
             $user->balance -= $amount;
             $user->save();
 
-            // Record as a Topup with negative amount to represent debit
-            Topup::create([
+            // Record as a Topup with negative amount to represent debit (buyer)
+            $buyerTopup = Topup::create([
                 'user_id' => $user->id,
                 'amount' => -1 * $amount,
-                'status' => 'approved'
+                'status' => 'approved',
+                'reference_type' => 'Item',
+                'reference_id' => $item->id,
+                'meta' => ['bid_id' => $highestBid->id, 'note' => 'payment for item']
             ]);
 
             // Mark item as paid
             $item->paid_at = now();
             $item->save();
+
+            // CREDIT SELLER: tambahkan saldo ke pemilik item (seller)
+            $seller = User::find($item->user_id);
+            if ($seller) {
+                $seller->balance += $amount;
+                $seller->save();
+
+                // Catat sebagai Topup (positif) untuk riwayat seller
+                $sellerTopup = Topup::create([
+                    'user_id' => $seller->id,
+                    'amount' => $amount,
+                    'status' => 'approved',
+                    'reference_type' => 'Item',
+                    'reference_id' => $item->id,
+                    'meta' => ['bid_id' => $highestBid->id, 'note' => 'seller payout']
+                ]);
+
+                // Audit: record both buyer payment and seller credit
+                AuditLog::create([
+                    'user_id' => Auth::id(),
+                    'action' => 'pay_item',
+                    'auditable_type' => 'Item',
+                    'auditable_id' => $item->id,
+                    'old_data' => null,
+                    'new_data' => ['buyer_topup' => $buyerTopup->toArray(), 'seller_topup' => $sellerTopup->toArray()],
+                    'ip' => request()->ip()
+                ]);
+            }
         });
 
         return redirect()->route('bidder.wins.index')->with('success', 'Pembayaran berhasil. Terima kasih.');

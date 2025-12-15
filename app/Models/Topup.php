@@ -11,6 +11,13 @@ class Topup extends Model
 
     // Tambahkan baris ini agar semua kolom bisa diisi
     protected $guarded = [];
+    protected $casts = [
+        'meta' => 'array',
+    ];
+
+    protected $fillable = [
+        'user_id', 'amount', 'status', 'reference_type', 'reference_id', 'meta'
+    ];
 
     public function user()
     {
@@ -20,8 +27,8 @@ class Topup extends Model
     // Helper untuk menentukan tipe transaksi
     public function getTypeAttribute()
     {
-        // Jika status approved dan ada logika khusus, bisa tambah kolom type nanti
-        // Untuk sekarang, semua topup dianggap sebagai "masuk" ke saldo user
+        // Jika amount negatif -> debit (keluar), jika positif -> credit (masuk)
+        if ($this->amount < 0) return 'debit';
         return 'credit';
     }
 }
