@@ -126,7 +126,7 @@
 
     <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2000&auto=format&fit=crop" 
+            <img src="{{ asset('images/hero/hero.jpg') }}" 
                 class="w-full h-full object-cover animate-pulse-slow" 
                 style="animation-duration: 20s;"
                 alt="Luxury Interior">
