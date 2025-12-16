@@ -379,7 +379,7 @@
 
 
 <!-- =======================
-     CONTACT SECTION ARTKUNO
+     CONTACT SECTION ARTKUNO//
 ======================== -->
 <section class="py-16 bg-black relative overflow-hidden" id="contact">
     <!-- Soft Gold Blur -->
