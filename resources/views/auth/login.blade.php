@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-auth-layout>
     <div class="mb-6 text-center">
         <h2 class="font-serif text-2xl font-bold text-emerald-950">Member Login</h2>
         <p class="text-sm text-gray-500 mt-1">Masuk untuk menawar barang eksklusif</p>
@@ -45,4 +45,4 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</x-auth-layout>
