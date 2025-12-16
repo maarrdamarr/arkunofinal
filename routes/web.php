@@ -118,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
 // === ROUTE PROFIL (TAMBAHKAN INI) ===
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/support/send', [\App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
