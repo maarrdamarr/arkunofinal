@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-auth-layout>
     <div class="mb-6 text-center">
         <h2 class="font-serif text-2xl font-bold text-emerald-950">Security Check</h2>
     </div>
@@ -21,10 +21,13 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="flex justify-end mt-6">
+        <div class="flex items-center justify-between mt-6">
+            <div>
+                <a href="{{ route('home') }}" class="text-sm text-gray-600 hover:text-gray-800">Back</a>
+            </div>
             <x-primary-button class="bg-emerald-900 hover:bg-emerald-800 text-white font-bold rounded-full px-6 border-none shadow-md">
                 {{ __('Konfirmasi') }}
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</x-auth-layout>

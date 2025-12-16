@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-auth-layout>
     <div class="mb-6 text-center">
         <h2 class="font-serif text-2xl font-bold text-emerald-950">Verify Identity</h2>
     </div>
@@ -13,23 +13,25 @@
         </div>
     @endif
 
-    <div class="mt-6 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
+    <div class="mt-6">
+        <div class="flex items-center justify-between">
+            <form method="POST" action="{{ route('verification.send') }}">
+                @csrf
                 <x-primary-button class="bg-emerald-900 hover:bg-emerald-800 text-white font-bold rounded-full px-6 border-none shadow-md">
                     {{ __('Kirim Ulang Email') }}
                 </x-primary-button>
-            </div>
-        </form>
+            </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="underline text-sm text-gray-500 hover:text-red-600 rounded-md focus:outline-none">
+                    {{ __('Log Out') }}
+                </button>
+            </form>
+        </div>
 
-            <button type="submit" class="underline text-sm text-gray-500 hover:text-red-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+        <div class="mt-4">
+            <a href="{{ route('home') }}" class="text-sm text-gray-600 hover:text-gray-800">Back</a>
+        </div>
     </div>
 </x-guest-layout>

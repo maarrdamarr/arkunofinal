@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-auth-layout>
     <div class="mb-6 text-center">
         <h2 class="font-serif text-2xl font-bold text-emerald-950">Exclusive Membership</h2>
         <p class="text-sm text-gray-500 mt-1">Bergabunglah dengan kolektor elit dunia</p>
@@ -40,14 +40,19 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-6">
-            <a class="underline text-sm text-gray-500 hover:text-emerald-700 transition" href="{{ route('login') }}">
-                {{ __('Sudah terdaftar?') }}
-            </a>
+        <div class="flex items-center justify-between mt-6">
+            <div>
+                <a class="underline text-sm text-gray-500 hover:text-emerald-700 transition" href="{{ route('login') }}">
+                    {{ __('Sudah terdaftar?') }}
+                </a>
+                <div class="mt-2">
+                    <a href="{{ route('home') }}" class="text-sm text-gray-600 hover:text-gray-800">Back</a>
+                </div>
+            </div>
 
-            <x-primary-button class="ms-4 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-emerald-950 font-bold shadow-lg border-none rounded-full px-6">
+            <x-primary-button class="bg-emerald-900 hover:bg-emerald-800 text-white font-bold shadow-lg border-none rounded-full px-6 py-2">
                 {{ __('Daftar Sekarang') }}
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</x-auth-layout>
