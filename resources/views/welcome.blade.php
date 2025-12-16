@@ -426,9 +426,7 @@
 
             <!-- Contact Form -->
                 @if(session('success'))
-                    <div class="mb-4 bg-green-50 border-l-4 border-green-400 p-4">
-                        <p class="text-green-800">{{ session('success') }}</p>
-                    </div>
+                    <script>window.alert({!! json_encode(session('success')) !!});</script>
                 @endif
 
                 @if($errors->any())
@@ -579,7 +577,7 @@
         });
     </script>
     
-    @include('components.live-chat-widget')
+    {{-- Live chat widget intentionally hidden on welcome page --}}
 
 </body>
 </html>

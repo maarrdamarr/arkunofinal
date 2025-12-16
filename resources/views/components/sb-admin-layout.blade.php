@@ -68,6 +68,11 @@
             @endif
 
             @if(Auth::user()->role == 'seller')
+            <li class="nav-item {{ request()->routeIs('support.my') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('support.my') }}">
+                    <i class="fas fa-fw fa-headset"></i><span>CS / Support</span>
+                </a>
+            </li>
             <li class="nav-item {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('seller.dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span>
@@ -198,7 +203,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/js/sb-admin-2.min.js"></script>
 
-    @include('components.live-chat-widget')
+    {{-- live chat widget removed; use Support/Inbox from sidebar instead --}}
 
 </body>
 </html>

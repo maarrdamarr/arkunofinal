@@ -14,11 +14,9 @@ class SupportController extends Controller
     // 1. Ambil Pesan (Untuk dimuat di kotak chat)
     public function fetchMessages()
     {
+        // If admin opens the widget, we don't render user chat bubbles here — direct them to the Admin Inbox
         if (Auth::user()->role == 'admin') {
-            // Admin melihat chat berdasarkan user_id yang dipilih (nanti via parameter)
-            // Untuk simple-nya di widget ini, Admin hanya melihat chat dia sendiri dulu sebagai demo
-            // Atau kita buat Admin merespon via dashboard khusus nanti.
-            return response()->json(['status' => 'admin_mode']);
+            return '<div class="p-3 text-muted">Mode admin: gunakan Inbox Admin untuk melihat percakapan.</div>';
         }
 
         $messages = SupportMessage::where('user_id', Auth::id())->oldest()->get();
@@ -202,5 +200,13 @@ class SupportController extends Controller
         ]);
 
         return back()->with('success', 'Balasan terkirim!');
+    }
+
+    // Simple user inbox page for authenticated sellers/bidders
+    public function userInbox()
+    {
+        $user = Auth::user();
+        $messages = SupportMessage::where('user_id', $user->id)->oldest()->get();
+        return view('support.user', compact('user', 'messages'));
     }
 }

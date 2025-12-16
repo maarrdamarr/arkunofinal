@@ -3,7 +3,7 @@
     
     <div id="chat-box" class="card shadow-lg mb-3 d-none" style="width: 300px; height: 400px; border-radius: 15px; overflow: hidden;">
         <div class="card-header bg-primary text-white py-2 px-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold" style="font-size: 14px;"><i class="fas fa-headset mr-1"></i> Customer Service</h6>
+            <h6 class="m-0 font-weight-bold" style="font-size: 14px;"><i class="fas fa-headset mr-1"></i> Customer Service1</h6>
             <button type="button" class="close text-white" onclick="toggleChat()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

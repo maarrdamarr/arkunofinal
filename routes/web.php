@@ -111,6 +111,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/support/send', [\App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
     Route::post('/support/update/{id}', [\App\Http\Controllers\SupportController::class, 'update'])->name('support.update');
     Route::delete('/support/delete/{id}', [\App\Http\Controllers\SupportController::class, 'destroy'])->name('support.destroy');
+    // Simple user inbox page
+    Route::get('/support/me', [\App\Http\Controllers\SupportController::class, 'userInbox'])->name('support.my');
 });
 
 // === ROUTE PROFIL (TAMBAHKAN INI) ===
