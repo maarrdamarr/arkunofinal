@@ -87,7 +87,7 @@ class ItemController extends Controller
 
         $item->close();
 
-        return back()->with('success', 'Lelang ditutup! Pemenang telah ditentukan dan pembayaran diproses.');
+        return back()->with('success', 'Lelang ditutup! Pemenang telah ditentukan, menunggu pembayaran.');
     }
     // MENAMPILKAN FORM EDIT
     public function edit(Item $item)

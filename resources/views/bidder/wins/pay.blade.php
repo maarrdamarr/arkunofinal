@@ -5,6 +5,7 @@
         <div class="card-body">
             <h4>{{ $item->name }}</h4>
             <p>Harga Akhir: <strong>Rp {{ number_format($highestBid->bid_amount) }}</strong></p>
+            <p class="text-muted">Saldo sudah dipotong saat lelang dan akan digunakan untuk pembayaran ini.</p>
 
             <form action="{{ route('bidder.wins.pay.process', $item->id) }}" method="post">
                 @csrf

@@ -16,29 +16,16 @@ class Item extends Model
         ];
 
         /**
-         * Close this auction: mark closed, determine winner and process payment.
+         * Close this auction: mark closed; payment is settled when the winner confirms.
          */
         public function close()
         {
-            if ($this->status === 'closed') return false;
+            if ($this->status === 'closed') {
+                return false;
+            }
 
             $this->status = 'closed';
             $this->save();
-
-            $winningBid = $this->highestBid();
-            if ($winningBid) {
-                $winner = $winningBid->user;
-                $seller = $this->user;
-
-                $seller->balance += $winningBid->bid_amount;
-                $seller->save();
-
-                \App\Models\Topup::create([
-                    'user_id' => $seller->id,
-                    'amount' => $winningBid->bid_amount,
-                    'status' => 'approved',
-                ]);
-            }
 
             return true;
         }

@@ -127,6 +127,14 @@ class WalletController extends Controller
             return redirect()->route('bidder.wins.index')->with('error', 'Anda bukan pemenang item ini.');
         }
 
+        if ($item->status !== 'closed') {
+            return redirect()->route('bidder.wins.index')->with('error', 'Lelang belum ditutup.');
+        }
+
+        if ($item->paid_at) {
+            return redirect()->route('bidder.wins.index')->with('success', 'Item ini sudah dibayar.');
+        }
+
         return view('bidder.wins.pay', compact('item', 'highestBid'));
     }
 
@@ -140,26 +148,27 @@ class WalletController extends Controller
             return redirect()->route('bidder.wins.index')->with('error', 'Anda bukan pemenang item ini.');
         }
 
+        if ($item->status !== 'closed') {
+            return redirect()->route('bidder.wins.index')->with('error', 'Lelang belum ditutup.');
+        }
+
+        if ($item->paid_at) {
+            return redirect()->route('bidder.wins.index')->with('success', 'Item ini sudah dibayar.');
+        }
+
         $amount = $highestBid->bid_amount;
 
         $user = User::find(Auth::id());
 
-        if ($user->balance < $amount) {
-            return back()->with('error', 'Saldo tidak cukup! Silakan top-up terlebih dahulu.');
-        }
-
         DB::transaction(function() use ($user, $amount, $item, $highestBid) {
-            $user->balance -= $amount;
-            $user->save();
-
-            // Record as a Topup with negative amount to represent debit (buyer)
+            // Record payment using the balance already held during bidding
             $buyerTopup = Topup::create([
                 'user_id' => $user->id,
                 'amount' => -1 * $amount,
                 'status' => 'approved',
                 'reference_type' => 'Item',
                 'reference_id' => $item->id,
-                'meta' => ['bid_id' => $highestBid->id, 'note' => 'payment for item']
+                'meta' => ['bid_id' => $highestBid->id, 'note' => 'payment settled from bid hold']
             ]);
 
             // Mark item as paid
@@ -195,6 +204,6 @@ class WalletController extends Controller
             }
         });
 
-        return redirect()->route('bidder.wins.index')->with('success', 'Pembayaran berhasil. Terima kasih.');
+        return redirect()->route('bidder.wins.index')->with('success', 'Pembayaran berhasil menggunakan saldo lelang.');
     }
 }
