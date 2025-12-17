@@ -38,7 +38,7 @@
             <div class="card shadow mb-4 border-left-primary">
                 <div class="card-body">
                     <h4 class="font-weight-bold text-gray-800">Posisi Tertinggi: Rp {{ number_format($highestBid) }}</h4>
-                    <p class="mb-4">Masukkan penawaran lebih tinggi dari nominal di atas.</p>
+                    <p class="mb-4">Masukkan penawaran yang lebih tinggi dari jumlah tertinggi di atas.</p>
 
                     <form action="{{ route('bidder.auction.store', $item->id) }}" method="POST">
                         @csrf
@@ -46,7 +46,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Rp</span>
                             </div>
-                            <input type="number" name="bid_amount" class="form-control" placeholder="Masukan nominal..." required min="{{ $highestBid + 1 }}">
+                            <input type="number" name="bid_amount" class="form-control" placeholder="Masukkan penawaran..." required min="{{ $highestBid + 1 }}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">Kirim Tawaran</button>
                             </div>

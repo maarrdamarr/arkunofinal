@@ -145,6 +145,12 @@
                     <span class="badge badge-light ml-1">{{ Auth::user()->receivedMessages()->count() }}</span>
                 </a>
             </li>
+
+            <li class="nav-item {{ request()->routeIs('support.my') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('support.my') }}">
+                    <i class="fas fa-fw fa-headset"></i><span>CS / Support</span>
+                </a>
+            </li>
             @endif
 
             <hr class="sidebar-divider d-none d-md-block">
@@ -208,9 +214,9 @@
                         </li>
                     </ul>
                 </nav>
-                <div class="container-fluid">
-                    {{ $slot }}
-                </div>
+                    <div class="container-fluid">
+                        {{ $slot ?? '' }}
+                    </div>
                 </div>
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">

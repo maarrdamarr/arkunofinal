@@ -75,7 +75,7 @@
                             <label>Saldo Saat Ini: <strong>Rp {{ number_format($user->balance) }}</strong></label>
                         </div>
                         <div class="form-group">
-                            <label>Nominal Tambahan (Rp)</label>
+                            <label>Jumlah Tambahan (Rp)</label>
                             <input type="number" name="amount" class="form-control" placeholder="Contoh: 500000" min="1000" required>
                         </div>
                     </div>

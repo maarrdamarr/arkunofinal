@@ -53,8 +53,8 @@ class SupportController extends Controller
         ]);
 
         // If request expects JSON (AJAX), return JSON; otherwise redirect back to welcome with flash
-        if ($request->wantsJson() || $request->ajax() || $request->expectsJson()) {
-            return response()->json(['success' => true, 'id' => $msg->id]);
+        if ($request->expectsJson() || $request->header('X-Requested-With') === 'XMLHttpRequest' || $request->ajax()) {
+            return response()->json(['success' => true, 'id' => $msg->id, 'message' => 'Pesan terkirim']);
         }
 
         return redirect()->route('home')->with('success', 'Pesan Anda telah terkirim. Terima kasih!');
@@ -207,6 +207,10 @@ class SupportController extends Controller
     {
         $user = Auth::user();
         $messages = SupportMessage::where('user_id', $user->id)->oldest()->get();
-        return view('support.user', compact('user', 'messages'));
+        // Also gather items this bidder has bid on so they can message sellers
+        $itemIds = \App\Models\Bid::where('user_id', $user->id)->select('item_id')->distinct()->pluck('item_id')->toArray();
+        $items = \App\Models\Item::whereIn('id', $itemIds)->with('user')->get();
+
+        return view('support.user', compact('user', 'messages', 'items'));
     }
 }

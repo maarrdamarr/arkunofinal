@@ -117,6 +117,9 @@ Route::middleware(['auth', 'role:bidder'])->prefix('bidder')->name('bidder.')->g
 Route::middleware('auth')->group(function() {
     Route::get('/inbox', [\App\Http\Controllers\MessageController::class, 'index'])->name('messages.index');
     Route::post('/message/{id}', [\App\Http\Controllers\MessageController::class, 'store'])->name('messages.store');
+    Route::get('/item/{itemId}/buyers', [\App\Http\Controllers\MessageController::class, 'itemBuyers'])->name('messages.item-buyers');
+    Route::get('/item/{itemId}/buyer/{buyerId}', [\App\Http\Controllers\MessageController::class, 'showWithBuyer'])->name('messages.conversation');
+    Route::get('/item/{itemId}/buyer/{buyerId}/fetch', [\App\Http\Controllers\MessageController::class, 'fetchConversation'])->name('messages.fetch');
     Route::post('/comments/{item_id}', [\App\Http\Controllers\CommentController::class, 'store'])->middleware('auth')->name('comments.store');
 });
 

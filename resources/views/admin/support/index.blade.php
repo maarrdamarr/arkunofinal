@@ -27,7 +27,7 @@
                         </div>
                         
                         <div class="text-right">
-                            <span class="badge badge-{{ $u->role == 'seller' ? 'info' : ($u->role == 'guest' ? 'warning' : 'secondary') }} mb-1">{{ ucfirst($u->role) }}</span>
+                            <span class="badge badge-{{ $u->role == 'seller' ? 'info' : ($u->role == 'bidder' ? 'primary' : ($u->role == 'guest' ? 'warning' : 'secondary')) }} mb-1">{{ ucfirst($u->role) }}</span>
                             <br>
                             <small class="text-xs text-gray-500">
                                 Klik untuk balas <i class="fas fa-chevron-right ml-1"></i>
