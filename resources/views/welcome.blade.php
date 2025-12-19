@@ -86,6 +86,19 @@
             z-index: -1;
         }
         .btn-gold:hover::before { width: 100%; }
+
+        /* --- Hero Video --- */
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-video { display: none; }
+        }
     </style>
 </head>
 <body class="font-sans-body bg-stone-50 text-gray-800 antialiased overflow-x-hidden selection:bg-yellow-500 selection:text-white">
@@ -124,12 +137,23 @@
         </div>
     </nav>
 
+    @php
+        $hasHeroVideo = file_exists(public_path('videos/hero.mp4'));
+    @endphp
+
     <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 z-0 overflow-hidden">
             <img src="{{ asset('images/hero/hero.jpg') }}" 
-                class="w-full h-full object-cover animate-pulse-slow" 
-                style="animation-duration: 20s;"
+                class="w-full h-full object-cover" 
                 alt="Luxury Interior">
+            @if($hasHeroVideo)
+                <video class="hero-video" autoplay muted loop playsinline
+                    poster="{{ asset('images/hero/hero.jpg') }}"
+                    style="background: url('{{ asset('images/hero/hero.jpg') }}') center center / cover no-repeat;"
+                    aria-hidden="true">
+                    <source src="{{ asset('videos/hero.mp4') }}" type="video/mp4">
+                </video>
+            @endif
             <div class="absolute inset-0 bg-gradient-to-b from-emerald-950/90 via-emerald-900/60 to-stone-50"></div>
         </div>
 
